@@ -1,0 +1,242 @@
+﻿<Page x:Class="Hotel.View.UsersPageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Приложение лоя пользователей" Height="auto" Width="auto">
+
+    <Page.Resources>
+        <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10"  
+                            >
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#ffdadada">
+        <Border Grid.Row="0" 
+                MinWidth="400" 
+                Margin="15 15" 
+                Background="White" 
+                Padding="30" 
+                CornerRadius="20"            
+                >
+
+                <Border.Effect>
+
+                    <DropShadowEffect BlurRadius="30" Color="Gray" ShadowDepth="0"/>
+
+                </Border.Effect>
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50px"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Margin="0,0,0,0" BorderBrush="#ffdadada" BorderThickness="0,0,0,1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200
+                                              "/>
+                                <!-- Левый столбец -->
+                                <ColumnDefinition Width="*"/>
+                                <!-- Правый столбец -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Элемент слева -->
+                            <Border Grid.Column="0" Margin="0,0,10,10">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Hyperlink Click="Hyperlink_Click" NavigateUri="#" TextDecorations="None">
+                            <Image Source="pack://application:,,,/Resources/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Hyperlink>
+                                </TextBlock>
+                            </Border>
+
+                            <!-- Элемент справа -->
+                            <!--<Border Grid.Column="1" Margin="10,0,0,10">
+                            -->
+                            <!-- Ваше содержимое для элемента справа -->
+                            <!--
+                            <Button Content="Тест" Click="TestButton_Click"> </Button>
+                            
+                        </Border>-->
+                        <!--   <Button Grid.Column="1" Content="Тест" Command="{Binding AddGoods}"></Button>-->
+                    </Grid>
+
+                    </Border>
+
+                    <TabControl 
+                        Grid.Row="1" Margin="0,10,0,0"
+                        TabStripPlacement="Left"   BorderBrush="#ffdadada" BorderThickness="1,0,0,0">
+                        <TabControl.Resources>
+                            <!-- Стиль кнопок вкладок -->
+
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border Name="Border"  Padding="0,10,0,10 " Width="200">
+                                                <ContentPresenter ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True" >
+                                                    <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="Gray"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.Resources>
+
+                        <TabItem Margin="0,0,10,0" >
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="pack://application:,,,/Resources/users.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="18" Height="18" Margin="0,0,10,0"/>
+                                    <TextBlock FontSize="18" Text="Пользователи"/>
+                                </StackPanel>
+                            </TabItem.Header>
+
+
+                            <Grid Margin="10,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0">
+                                    <TextBox   
+                                        x:Name="FilterText"
+                                        materialDesign:HintAssist.Hint="Введите писковый запрос"                     
+                                        Padding="0 2" 
+                                        Width="200"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                </Border>
+
+                                <Border Grid.Row="1">
+                                    <DataGrid x:Name="listOfUser"                                           
+                                        Grid.Row="1"
+                              IsReadOnly="True"
+                          
+                              
+                              Background="White"
+                              
+                              AutoGenerateColumns="False" 
+                              ItemsSource="{Binding Items}"
+                                             >
+
+                                        <DataGrid.Columns >
+                                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}"/>
+                                            <DataGridTextColumn Header="Почта" Binding="{Binding Email}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                </Border>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem  Margin="0,0,10,0">
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="pack://application:,,,/Resources/stock.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="18" Height="18" Margin="0,0,10,0"/>
+                                    <TextBlock FontSize="18" Text="Склад"/>
+                                </StackPanel>
+                            </TabItem.Header>
+
+
+                            <Grid Margin="10,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0">
+                                    <TextBox   
+                                        x:Name="FilterWarehouse"
+                                        materialDesign:HintAssist.Hint="Введите писковый запрос"                     
+                                        Padding="0 2" 
+                                        Width="200"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Text="{Binding FilterWarehouse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                </Border>
+
+                                <Border Grid.Row="1">
+                                <materialDesign:DialogHost Identifier="RootDialog">
+
+                                    <!--<materialDesign:DialogHost DialogTheme="Inherit"
+                             Identifier="RootDialog"
+                             SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">-->
+
+                                    <DataGrid 
+                                        x:Name="GridWarehouse"                                                           
+                                        Grid.Row="1"
+                                        IsReadOnly="True"                                                        
+                                        Background="White"                              
+                                        AutoGenerateColumns="False" 
+                                        ItemsSource="{Binding ItemsWarehouse}"
+                                        d:ItemsSource="{d:SampleData ItemCount=5}">
+
+                                        <DataGrid.Columns >
+                                            <DataGridTextColumn Header="Id" Binding="{Binding product}"/>
+                                            <DataGridTextColumn Header="Название товара" Binding="{Binding nameProduct}"/>
+                                            <DataGridTextColumn Header="Остаток" Binding="{Binding quantity}"/>
+                                            <DataGridTextColumn Header="Ед. изм" Binding="{Binding nameUnit}"/>
+
+                                            <DataGridTemplateColumn Header="">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button 
+                                                        Content="+" 
+                                                        Command="{Binding Path=DataContext.AddGoods, RelativeSource={RelativeSource AncestorType=DataGrid} }"
+                                                        CommandParameter="{Binding}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button 
+                                                        Content="#" 
+                                                        Command="{Binding Path=DataContext.MovementGoods, RelativeSource={RelativeSource AncestorType=DataGrid} }"
+                                                        CommandParameter="{Binding}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    </materialDesign:DialogHost>
+                                </Border>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Border>
+    </Grid>
+</Page>
+
